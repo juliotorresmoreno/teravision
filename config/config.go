@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -9,8 +10,15 @@ import (
 
 // Config all data of configuration
 type Config struct {
+	Host        string `yaml:"host"`
+	Port        string `yaml:"port"`
 	DriverName  string `yaml:"driver_name"`
 	DatabaseDSN string `yaml:"database_dsn"`
+}
+
+// GetFullHost Get full host
+func (that Config) GetFullHost() string {
+	return fmt.Sprintf("%v:%v", that.Host, that.Port)
 }
 
 var c Config
