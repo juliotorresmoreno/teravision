@@ -1,15 +1,13 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/juliotorresmoreno/teravision/bootstrap"
-	"github.com/juliotorresmoreno/teravision/config"
+	"github.com/juliotorresmoreno/teravision/server"
 	_ "github.com/lib/pq"
 )
 
 func main() {
 	bootstrap.Init()
-	conf := config.GetConf()
-	fmt.Println(conf.DatabaseDSN)
+	svr := server.NewServer()
+	svr.Listen()
 }
