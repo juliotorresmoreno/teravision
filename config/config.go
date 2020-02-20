@@ -9,13 +9,20 @@ import (
 
 // Config all data of configuration
 type Config struct {
+	DriverName  string `yaml:"driver_name"`
 	DatabaseDSN string `yaml:"database_dsn"`
 }
 
 var c Config
 
+/*
 func init() {
-	f, err := ioutil.ReadFile("env.yml")
+	Init("env.yml")
+}*/
+
+// Init default config
+func Init(path string) {
+	f, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
