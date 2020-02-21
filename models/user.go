@@ -36,7 +36,6 @@ func (that *User) UnmarshalJSON(b []byte) error {
 	if strings.Contains(m.Date, "T") {
 		that.Date, err = time.Parse(time.RFC3339, m.Date)
 		that.Date = that.Date.UTC()
-
 	} else {
 		that.Date, err = time.Parse(time.RFC3339, m.Date+"T05:00:00Z")
 		that.Date = that.Date.UTC()
