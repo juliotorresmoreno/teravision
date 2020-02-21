@@ -28,8 +28,7 @@ func usersGET(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "Conection failure")
 	}
 	return c.JSON(200, map[string]interface{}{
-		"success": true,
-		"data":    users,
+		"data": users,
 	})
 }
 
@@ -38,7 +37,6 @@ func usersPUT(c echo.Context) error {
 	if err != nil {
 		c.Logger().Debug(err)
 		return c.JSON(http.StatusNotAcceptable, map[string]interface{}{
-			"success": "error",
 			"message": "Conection failure",
 		})
 	}
@@ -47,24 +45,25 @@ func usersPUT(c echo.Context) error {
 	user := new(models.User)
 	if err = c.Bind(user); err != nil {
 		c.Logger().Debug(err)
+		return err
+	}
+	user.CleanForInsert()
+	if err = user.Validate(); err != nil {
+		c.Logger().Debug(err)
 		return c.JSON(http.StatusNotAcceptable, map[string]interface{}{
-			"success": "error",
 			"message": err.Error(),
 		})
 	}
-	user.CleanForInsert()
 	_, err = conn.InsertOne(user)
 	if err != nil {
 		if err.Error()[:17] == "pq: duplicate key" {
 			c.Logger().Debug(err)
 			return c.JSON(http.StatusNotAcceptable, map[string]interface{}{
-				"success": "error",
 				"message": "The DNI already exists.",
 			})
 		}
 		c.Logger().Debug(err)
 		return c.JSON(http.StatusNotAcceptable, map[string]interface{}{
-			"success": "error",
 			"message": err.Error(),
 		})
 	}
