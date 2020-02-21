@@ -24,6 +24,7 @@ type user struct {
 	Date string `json:"date"`
 }
 
+// UnmarshalJSON changes the natural behavior of json.Unmarshal
 func (that *User) UnmarshalJSON(b []byte) error {
 	var err error
 	m := &user{}
@@ -46,6 +47,7 @@ func (that *User) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// MarshalJSON changes the natural behavior of json.Marchal
 func (that User) MarshalJSON() ([]byte, error) {
 	m := &user{}
 	m.ID = that.ID
